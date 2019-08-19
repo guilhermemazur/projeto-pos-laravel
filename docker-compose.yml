@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+    app:
+        build: ./docker/back
+        ports:
+            - "80:8080"
+        volumes:
+            - ./project:/var/www/app
+
+    front:
+        container_name: front
+        build: ./docker/front
+        tty: true
+        volumes:
+        - ./project:/var/www/app
+        depends_on:
+        - app
+
+    mailcatcher:
+        image: schickling/mailcatcher
+        ports:
+            - "1080:1080"
+            - "1025:1025"
